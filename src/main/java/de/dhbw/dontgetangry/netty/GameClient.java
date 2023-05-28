@@ -76,4 +76,12 @@ public class GameClient {
             ctx.close();
         }
     }
+
+    public static void main(String[] args) throws Exception {
+        String serverHost = "localhost"; // Specify the server host
+        int serverPort = 5000; // Specify the server port
+
+        GameClient client = new GameClient("Player1");
+        client.sendUpdate("Game update message", serverHost, serverPort);
+    }
 }
