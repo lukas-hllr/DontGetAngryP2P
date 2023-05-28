@@ -1,4 +1,4 @@
-package main.java.de.dhbw.dontgetangry;
+package de.dhbw.dontgetangry;
 
 import java.awt.EventQueue;
 
@@ -9,7 +9,7 @@ import javax.swing.border.LineBorder;
 
 import java.awt.Color;
 
-public class Window implements IView {
+public class GameWindow implements IView {
 
     private JFrame frame;
     public static int field_size = 64;
@@ -31,23 +31,9 @@ public class Window implements IView {
     public Color color_player_3 = new Color(136, 186, 20);
 
     /**
-     * Launch the application.
-     */
-    public static void main(String[] args) {
-        EventQueue.invokeLater(() -> {
-            try {
-                Window window = new Window();
-                window.frame.setVisible(true);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-    }
-
-    /**
      * Create the application.
      */
-    public Window() {
+    public GameWindow() {
         initialize();
     }
 
@@ -282,6 +268,8 @@ public class Window implements IView {
         frame.getContentPane().add(p);
 
         setPosition(Player.BLUE, 0, 6);
+
+        frame.setVisible(true);
     }
 
     @Override

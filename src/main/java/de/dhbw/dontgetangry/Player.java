@@ -1,4 +1,4 @@
-package main.java.de.dhbw.dontgetangry;
+package de.dhbw.dontgetangry;
 import java.awt.Color;
 
 import javax.swing.Icon;
