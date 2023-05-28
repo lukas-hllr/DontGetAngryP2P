@@ -1,5 +1,6 @@
 package de.dhbw.dontgetangry;
 
+import javax.swing.*;
 import java.awt.*;
 
 public class Main {
@@ -8,12 +9,7 @@ public class Main {
      * Launch the application.
      */
     public static void main(String[] args) {
-        EventQueue.invokeLater(() -> {
-            try {
-                GameWindow gameWindow = new GameWindow();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
+        SwingUtilities.invokeLater(GameLauncher::new);
+
     }
 }

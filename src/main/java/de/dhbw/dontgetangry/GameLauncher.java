@@ -1,5 +1,8 @@
 package de.dhbw.dontgetangry;
 
+import de.dhbw.dontgetangry.netty.GameClient;
+import de.dhbw.dontgetangry.netty.GameServer;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -29,6 +32,8 @@ public class GameLauncher extends JFrame {
             System.out.println("Player Icon: " + playerIcon);
 
             // Perform any other logic with the selected player
+            startGame(playerId + "");
+
         });
 
         JPanel panel = new JPanel(new GridLayout(3, 1));
@@ -40,7 +45,22 @@ public class GameLauncher extends JFrame {
         setVisible(true);
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(GameLauncher::new);
+    public void startGame(String playerName) {
+        GameServer gameServer = new GameServer();
+        try {
+            gameServer.start(5000);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        GameClient gameClient = new GameClient(playerName);
+
+
+        EventQueue.invokeLater(() -> {
+            try {
+                GameWindow gameWindow = new GameWindow();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 }
