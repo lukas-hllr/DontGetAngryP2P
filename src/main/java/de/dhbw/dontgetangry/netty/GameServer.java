@@ -79,6 +79,7 @@ public class GameServer {
                 gameUpdates.put(player, update);
             }
 
+            //TODO: update Gamestate
             System.out.println("Received update from player " + player + ": " + update);
 
             ctx.close();
