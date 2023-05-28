@@ -22,13 +22,11 @@ public class GameLauncher extends JFrame {
             int playerId = selectedPlayer.id;
             Color playerColor = selectedPlayer.color;
             Icon playerIcon = selectedPlayer.icon;
-            int playerPort = selectedPlayer.getPort();
 
             System.out.println("Selected Player: " + selectedPlayer);
             System.out.println("Player ID: " + playerId);
             System.out.println("Player Color: " + playerColor);
             System.out.println("Player Icon: " + playerIcon);
-            System.out.println("Player Port: " + playerPort);
 
             // Perform any other logic with the selected player
         });

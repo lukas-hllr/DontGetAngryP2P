@@ -51,7 +51,7 @@ public class GameUpdateTest {
 
         // Shutdown the server
         serverThread.sleep(2000);
-//        server.stop();
+        server.stop();
     }
 }
 
