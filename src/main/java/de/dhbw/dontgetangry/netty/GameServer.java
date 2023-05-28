@@ -1,5 +1,6 @@
 package de.dhbw.dontgetangry.netty;
 
+import de.dhbw.dontgetangry.GameUpdateHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -13,12 +14,14 @@ import java.util.Map;
 
 public class GameServer {
 
-    private Map<String, String> gameUpdates;
+    private final Map<String, String> gameUpdates;
+    private final GameUpdateHandler gameUpdateHandler;
     private EventLoopGroup bossGroup;
     private EventLoopGroup workerGroup;
     private Channel serverChannel;
 
-    public GameServer() {
+    public GameServer(GameUpdateHandler gameUpdateHandler) {
+        this.gameUpdateHandler = gameUpdateHandler;
         gameUpdates = new HashMap<>();
     }
 
@@ -30,11 +33,11 @@ public class GameServer {
             ServerBootstrap bootstrap = new ServerBootstrap();
             bootstrap.group(bossGroup, workerGroup)
                     .channel(NioServerSocketChannel.class)
-                    .childHandler(new ChannelInitializer<Channel>() {
+                    .childHandler(new ChannelInitializer<>() {
                         @Override
                         protected void initChannel(Channel channel) {
                             ChannelPipeline pipeline = channel.pipeline();
-                            pipeline.addLast(new GameServerHandler());
+                            pipeline.addLast(new GameServerHandler(gameUpdateHandler));
                         }
                     })
                     .option(ChannelOption.SO_BACKLOG, 128)
@@ -66,6 +69,11 @@ public class GameServer {
 
     private class GameServerHandler extends ChannelInboundHandlerAdapter {
 
+        private GameUpdateHandler gameUpdateHandler;
+        public GameServerHandler(GameUpdateHandler gameUpdateHandler) {
+            this.gameUpdateHandler = gameUpdateHandler;
+        }
+
         @Override
         public void channelRead(ChannelHandlerContext ctx, Object msg) {
             ByteBuf byteBuf = (ByteBuf) msg;
@@ -78,10 +86,7 @@ public class GameServer {
             synchronized (gameUpdates) {
                 gameUpdates.put(player, update);
             }
-
-            //TODO: update Gamestate
-            System.out.println("Received update from player " + player + ": " + update);
-
+            this.gameUpdateHandler.handleUpdate(player, update);
             ctx.close();
         }
 

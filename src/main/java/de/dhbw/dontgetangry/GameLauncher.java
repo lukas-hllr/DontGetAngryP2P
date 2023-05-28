@@ -46,7 +46,8 @@ public class GameLauncher extends JFrame {
     }
 
     public void startGame(String playerName) {
-        GameServer gameServer = new GameServer();
+        GameUpdateHandler gameUpdateHandler = new GameUpdateHandler();
+        GameServer gameServer = new GameServer(gameUpdateHandler);
         try {
             gameServer.start(5000);
         } catch (Exception e) {

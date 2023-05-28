@@ -11,7 +11,8 @@ public class GameUpdateTest {
     public static void main(String[] args) throws Exception {
         int port = 5000;
         String serverHost = "localhost";
-        GameServer server = new GameServer();
+        GameUpdateHandler gameUpdateHandler = new GameUpdateHandler();
+        GameServer server = new GameServer(gameUpdateHandler);
 
         // Start the server on a new thread
         Thread serverThread = new Thread(() -> {
