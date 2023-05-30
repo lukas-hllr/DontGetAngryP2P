@@ -1,16 +1,17 @@
-package de.dhbw.dontgetangry;
+package de.dhbw.dontgetangry.ui;
 
-import java.awt.EventQueue;
+import de.dhbw.dontgetangry.ui.components.DicePanel;
+import de.dhbw.dontgetangry.ui.components.FieldPanel;
+import de.dhbw.dontgetangry.model.Player;
 
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.LineBorder;
 
-import java.awt.Color;
+import java.awt.*;
 
-public class GameWindow implements IView {
+public class GameWindow implements UserInterface {
 
+    private StartWindow startWindow;
     private JFrame frame;
     public static int field_size = 64;
     public static int space_size = 10;
@@ -30,11 +31,28 @@ public class GameWindow implements IView {
     public Color color_player_2 = new Color(254, 204, 0);
     public Color color_player_3 = new Color(136, 186, 20);
 
+    public static void main(String[] args) {
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    GameWindow window = new GameWindow();
+                    window.frame.setVisible(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
     /**
      * Create the application.
      */
     public GameWindow() {
         initialize();
+
+        startWindow = new StartWindow();
+        startWindow.show(true);
+
     }
 
     /**
@@ -306,5 +324,24 @@ public class GameWindow implements IView {
     public void setDice(int r) {
         // TODO Auto-generated method stub
 
+    }
+
+    @Override
+    public void setWinner(Player player) {
+
+    }
+
+    @Override
+    public void startGame() {
+        startWindow.show(false);
+        this.frame.setVisible(true);
+    }
+
+    @Override
+    public void error(String message) {
+        JOptionPane.showMessageDialog(frame,
+                message,
+                "Error",
+                JOptionPane.ERROR_MESSAGE);
     }
 }

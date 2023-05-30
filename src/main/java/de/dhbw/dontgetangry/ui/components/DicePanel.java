@@ -1,4 +1,4 @@
-package de.dhbw.dontgetangry;
+package de.dhbw.dontgetangry.ui.components;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;

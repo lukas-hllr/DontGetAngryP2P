@@ -1,7 +1,9 @@
 package de.dhbw.dontgetangry;
 
+import de.dhbw.dontgetangry.model.Player;
 import de.dhbw.dontgetangry.netty.GameClient;
 import de.dhbw.dontgetangry.netty.GameServer;
+import de.dhbw.dontgetangry.ui.GameWindow;
 
 import javax.swing.*;
 import java.awt.*;

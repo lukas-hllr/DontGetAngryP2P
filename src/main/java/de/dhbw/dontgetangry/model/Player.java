@@ -1,4 +1,4 @@
-package de.dhbw.dontgetangry;
+package de.dhbw.dontgetangry.model;
 
 import java.awt.Color;
 

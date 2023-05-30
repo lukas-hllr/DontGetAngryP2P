@@ -1,12 +1,11 @@
-package de.dhbw.dontgetangry;
+package de.dhbw.dontgetangry.ui.components;
+import de.dhbw.dontgetangry.model.Player;
+
 import java.awt.Color;
-import java.io.File;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
