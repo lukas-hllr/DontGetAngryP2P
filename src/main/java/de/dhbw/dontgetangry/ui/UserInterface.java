@@ -2,6 +2,8 @@ package de.dhbw.dontgetangry.ui;
 
 import de.dhbw.dontgetangry.model.Player;
 
+import java.util.List;
+
 public interface UserInterface {
 
 	/**
@@ -18,7 +20,7 @@ public interface UserInterface {
 
 	void setWinner(Player player);
 
-	void startGame();
+	void startGame(List<Player> players);
 
 	void error(String message);
 }

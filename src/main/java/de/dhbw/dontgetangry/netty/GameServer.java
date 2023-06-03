@@ -78,6 +78,7 @@ public class GameServer {
         public void channelRead(ChannelHandlerContext ctx, Object msg) {
             ByteBuf byteBuf = (ByteBuf) msg;
             String receivedData = byteBuf.toString(CharsetUtil.UTF_8);
+            System.out.println(receivedData);
             String[] keyValue = receivedData.split(":");
 
             String player = keyValue[0];

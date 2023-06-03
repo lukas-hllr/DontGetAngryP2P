@@ -1,5 +1,6 @@
 package de.dhbw.dontgetangry;
 
+import de.dhbw.dontgetangry.model.Player;
 import de.dhbw.dontgetangry.netty.GameClient;
 import de.dhbw.dontgetangry.netty.GameServer;
 
@@ -28,9 +29,9 @@ public class GameUpdateTest {
         serverThread.sleep(2000); // Wait for the server to start
         // Create and start multiple clients
         List<GameClient> clients = new ArrayList<>();
-        clients.add(new GameClient("Alice"));
-        clients.add(new GameClient("Bob"));
-        clients.add(new GameClient("Charlie"));
+        clients.add(new GameClient(Player.RED));
+        clients.add(new GameClient(Player.BLUE));
+        clients.add(new GameClient(Player.GREEN));
 
         for (GameClient client : clients) {
             Thread clientThread = new Thread(() -> {

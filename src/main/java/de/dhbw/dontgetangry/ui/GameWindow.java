@@ -3,15 +3,17 @@ package de.dhbw.dontgetangry.ui;
 import de.dhbw.dontgetangry.ui.components.DicePanel;
 import de.dhbw.dontgetangry.ui.components.FieldPanel;
 import de.dhbw.dontgetangry.model.Player;
+import de.dhbw.dontgetangry.ui.starter.StartWindow;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
-
 import java.awt.*;
+import java.util.List;
+
 
 public class GameWindow implements UserInterface {
 
-    private StartWindow startWindow;
+    private UIEventListener listener;
     private JFrame frame;
     public static int field_size = 64;
     public static int space_size = 10;
@@ -31,27 +33,15 @@ public class GameWindow implements UserInterface {
     public Color color_player_2 = new Color(254, 204, 0);
     public Color color_player_3 = new Color(136, 186, 20);
 
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    GameWindow window = new GameWindow();
-                    window.frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
     /**
      * Create the application.
      */
-    public GameWindow() {
+    public GameWindow(UIEventListener listener) {
+        this.listener = listener;
         initialize();
 
-        startWindow = new StartWindow();
-        startWindow.show(true);
+        //startWindow = new StartWindow();
+        //startWindow.show(true);
 
     }
 
@@ -287,7 +277,7 @@ public class GameWindow implements UserInterface {
 
         setPosition(Player.BLUE, 0, 6);
 
-        frame.setVisible(true);
+        frame.setVisible(false);
     }
 
     @Override
@@ -332,8 +322,12 @@ public class GameWindow implements UserInterface {
     }
 
     @Override
-    public void startGame() {
-        startWindow.show(false);
+    public void startGame(List<Player> players) {
+        for (Player player: players) {
+            for (int i = 0; i < 4; i++) {
+                setPosition(player, i, i-4);
+            }
+        }
         this.frame.setVisible(true);
     }
 

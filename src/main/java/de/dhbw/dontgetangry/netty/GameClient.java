@@ -1,5 +1,6 @@
 package de.dhbw.dontgetangry.netty;
 
+import de.dhbw.dontgetangry.model.Player;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -10,11 +11,11 @@ import io.netty.util.CharsetUtil;
 
 public class GameClient {
 
-    private final String player;
+    private final Player player;
     private EventLoopGroup group;
     private Channel clientChannel;
 
-    public GameClient(String player) {
+    public GameClient(Player player) {
         this.player = player;
     }
 
@@ -54,10 +55,10 @@ public class GameClient {
 
     private class GameClientHandler extends ChannelInboundHandlerAdapter {
 
-        private String player;
+        private Player player;
         private String update;
 
-        public GameClientHandler(String player, String update) {
+        public GameClientHandler(Player player, String update) {
             this.player = player;
             this.update = update;
         }
@@ -81,7 +82,7 @@ public class GameClient {
         String serverHost = "localhost"; // Specify the server host
         int serverPort = 5000; // Specify the server port
 
-        GameClient client = new GameClient("Player1");
+        GameClient client = new GameClient(Player.RED);
         client.sendUpdate("Game update message", serverHost, serverPort);
     }
 }
