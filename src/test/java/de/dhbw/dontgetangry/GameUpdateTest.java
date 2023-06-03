@@ -3,23 +3,27 @@ package de.dhbw.dontgetangry;
 import de.dhbw.dontgetangry.model.Player;
 import de.dhbw.dontgetangry.netty.GameClient;
 import de.dhbw.dontgetangry.netty.GameServer;
+import de.dhbw.dontgetangry.netty.*;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static de.dhbw.dontgetangry.netty.GameProtocolKeywords.DiceRolled;
 
 public class GameUpdateTest {
 
     public static void main(String[] args) throws Exception {
         int port = 5000;
         String serverHost = "localhost";
-        GameUpdateHandler gameUpdateHandler = new GameUpdateHandler();
-        GameServer server = new GameServer(gameUpdateHandler);
+        GameConnectionsMgr gameConnectionsMgr = new GameConnectionsMgr();
 
-        // Start the server on a new thread
+
+        // only for testing (to use .sleep()) not needed in real game
         Thread serverThread = new Thread(() -> {
             try {
 
-                server.start(port);
+                gameConnectionsMgr.start(Player.getPlayerById(0), port);
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -36,15 +40,13 @@ public class GameUpdateTest {
         for (GameClient client : clients) {
             Thread clientThread = new Thread(() -> {
                 try {
-                    client.sendUpdate("Some update", serverHost, port);
+                    client.sendUpdate(DiceRolled.getKeyword() + "/" + client.getPlayer() + ";" + 6, serverHost, port);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             });
             clientThread.start();
         }
-
-        // Perform your operations...
 
         // Shutdown the clients
         for (GameClient client : clients) {
@@ -53,7 +55,7 @@ public class GameUpdateTest {
 
         // Shutdown the server
         serverThread.sleep(2000);
-        server.stop();
+        gameConnectionsMgr.getGameServer().stop();
     }
 }
 

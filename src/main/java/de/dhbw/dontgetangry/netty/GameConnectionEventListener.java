@@ -4,7 +4,7 @@ import de.dhbw.dontgetangry.model.Player;
 
 public interface GameConnectionEventListener {
 
-    void onPlayerJoined(Player player);
+    void onPlayerJoined(Player player, String domain, int port);
 
     void onPlayerMove(Player player, int figure, int position);
 
