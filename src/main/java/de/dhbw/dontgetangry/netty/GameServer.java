@@ -1,9 +1,7 @@
 package de.dhbw.dontgetangry.netty;
 
-import de.dhbw.dontgetangry.GameUpdateHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
@@ -70,6 +68,7 @@ public class GameServer {
     private class GameServerHandler extends ChannelInboundHandlerAdapter {
 
         private GameUpdateHandler gameUpdateHandler;
+
         public GameServerHandler(GameUpdateHandler gameUpdateHandler) {
             this.gameUpdateHandler = gameUpdateHandler;
         }
@@ -86,7 +85,7 @@ public class GameServer {
             synchronized (gameUpdates) {
                 gameUpdates.put(player, update);
             }
-            this.gameUpdateHandler.handleUpdate(player, update);
+            this.gameUpdateHandler.handleUpdate(ctx.channel().remoteAddress().toString(), player, update);
             ctx.close();
         }
 

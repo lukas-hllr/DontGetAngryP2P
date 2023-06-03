@@ -14,6 +14,10 @@ public class GameClient {
     private EventLoopGroup group;
     private Channel clientChannel;
 
+    public String getPlayer() {
+        return player;
+    }
+
     public GameClient(String player) {
         this.player = player;
     }
