@@ -2,7 +2,9 @@ package de.dhbw.dontgetangry;
 
 import de.dhbw.dontgetangry.model.Player;
 import de.dhbw.dontgetangry.netty.GameClient;
+import de.dhbw.dontgetangry.netty.GameConnectionsMgr;
 import de.dhbw.dontgetangry.netty.GameServer;
+import de.dhbw.dontgetangry.netty.GameUpdateHandler;
 import de.dhbw.dontgetangry.ui.GameWindow;
 
 import javax.swing.*;
@@ -48,15 +50,10 @@ public class GameLauncher extends JFrame {
     }
 
     public void startGame(String playerName) {
-        GameUpdateHandler gameUpdateHandler = new GameUpdateHandler();
-        GameServer gameServer = new GameServer(gameUpdateHandler);
-        try {
-            gameServer.start(5000);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        GameClient gameClient = new GameClient(playerName);
-
+        int port = 5000;
+        GameConnectionsMgr gameConnectionsMgr = new GameConnectionsMgr();
+        //new game:
+        gameConnectionsMgr.start(Player.getPlayerById(0), port);
 
         EventQueue.invokeLater(() -> {
             try {

@@ -26,4 +26,13 @@ public enum Player {
     public int getPort() {
         return port;
     }
+
+    public static Player getPlayerById(int id) {
+        for (Player player : Player.values()) {
+            if (player.id == id) {
+                return player;
+            }
+        }
+        return null;
+    }
 }
