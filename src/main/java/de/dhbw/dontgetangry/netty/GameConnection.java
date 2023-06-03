@@ -9,4 +9,5 @@ public interface GameConnection {
     void playerMove(int figure, int position);
     void rollDice(int n);
     void endTurn();
+    void startGame();
 }

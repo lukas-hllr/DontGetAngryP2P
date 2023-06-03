@@ -2,6 +2,7 @@ package de.dhbw.dontgetangry.netty;
 
 import de.dhbw.dontgetangry.model.Player;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -12,7 +13,7 @@ public class GameConnectionsMgr implements GameConnection {
     Player player;
     private GameClient gameClient;
     private GameServer gameServer;
-    private final List<PlayerAddress> playerAddresses = Arrays.asList(new PlayerAddress[3]);
+    private final List<PlayerAddress> playerAddresses = new ArrayList<>();
     private final GameConnectionEventListener listener;
 
 
@@ -86,6 +87,17 @@ public class GameConnectionsMgr implements GameConnection {
         try {
             for (PlayerAddress playerAddress : playerAddresses) {
                 gameClient.sendUpdate(TurnEnded.getKeyword() + "/" + this.player.id, playerAddress.domain(), playerAddress.port());
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void startGame() {
+        try {
+            for (PlayerAddress playerAddress : playerAddresses) {
+                gameClient.sendUpdate(GameStarted.getKeyword() + "/" + this.player.id, playerAddress.domain(), playerAddress.port());
             }
         } catch (Exception e) {
             throw new RuntimeException(e);

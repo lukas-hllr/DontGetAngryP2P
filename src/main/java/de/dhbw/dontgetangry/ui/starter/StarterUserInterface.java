@@ -7,5 +7,7 @@ public interface StarterUserInterface {
 
     void awaitGameStart();
 
+    void setPlayersInQueue(int i);
+
     void show(boolean show);
 }

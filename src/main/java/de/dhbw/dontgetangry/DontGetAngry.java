@@ -10,13 +10,20 @@ import de.dhbw.dontgetangry.ui.UserInterface;
 import de.dhbw.dontgetangry.ui.starter.StartWindow;
 import de.dhbw.dontgetangry.ui.starter.StarterEventListener;
 import de.dhbw.dontgetangry.ui.starter.StarterUserInterface;
+
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class DontGetAngry implements StarterEventListener, UIEventListener, GameConnectionEventListener {
 
-	private UserInterface ui;
-	private StarterUserInterface starterUi;
-	private GameConnection connection;
+	private final UserInterface ui;
+	private final StarterUserInterface starterUi;
+	private final GameConnection connection;
+
+
+	private final List<Player> players = new ArrayList<>();
+
 
 	public DontGetAngry(){
 		this.ui = new GameWindow(this);
@@ -45,17 +52,20 @@ public class DontGetAngry implements StarterEventListener, UIEventListener, Game
 
 	@Override
 	public void onStartNewGameRequestedByUI(int port, Player player) {
-		starterUi.awaitGameStart();
 		System.out.println("start server");
+
+		starterUi.awaitGameStart();
+		players.add(player);
 		connection.start(player, port);
 	}
 
 	@Override
 	public void onJoinGameRequestedByUI(String domain, int port, Player player) {
-		starterUi.awaitGameStart();
 		System.out.println("start client");
-		connection.start(player, domain, port);
 
+		starterUi.awaitGameStart();
+		players.add(player);
+		connection.start(player, domain, port);
 	}
 
 	@Override
@@ -66,7 +76,8 @@ public class DontGetAngry implements StarterEventListener, UIEventListener, Game
 
 	@Override
 	public void onPlayerJoinedByNetwork(Player player) {
-
+		players.add(player);
+		starterUi.setPlayersInQueue(players.size()-1);
 	}
 
 	@Override
@@ -81,6 +92,11 @@ public class DontGetAngry implements StarterEventListener, UIEventListener, Game
 
 	@Override
 	public void onTurnEndedByNetwork(Player player) {
+
+	}
+
+	@Override
+	public void onGameStartedByNetwork() {
 
 	}
 }

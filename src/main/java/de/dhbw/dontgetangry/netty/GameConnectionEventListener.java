@@ -11,4 +11,6 @@ public interface GameConnectionEventListener {
     void onDiceRolledByNetwork(Player player, int n);
 
     void onTurnEndedByNetwork(Player player);
+
+    void onGameStartedByNetwork();
 }

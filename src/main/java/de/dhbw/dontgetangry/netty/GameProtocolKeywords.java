@@ -1,8 +1,7 @@
 package de.dhbw.dontgetangry.netty;
 
 public enum GameProtocolKeywords {
-    StartConnection("StartConnection"),
-    StartGame("StartGame"),
+    GameStarted("GameStarted"),
     PlayerJoined("PlayerJoined"),
     PlayerMove("PlayerMove"),
     DiceRolled("DiceRolled"),

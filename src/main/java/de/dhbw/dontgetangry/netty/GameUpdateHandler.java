@@ -31,7 +31,7 @@ public class GameUpdateHandler {
         Player updateFromPlayer = Player.getPlayerById(Integer.parseInt(updateArgs[0]));
 
         switch (GameProtocolKeywords.valueOf(keyword)) {
-            case StartConnection -> {
+            case PlayerJoined -> {
                 mgr.addPlayerAddress(new PlayerAddress(updateFromPlayer, host, port));
                 listener.onPlayerJoinedByNetwork(updateFromPlayer);
             }
@@ -39,6 +39,7 @@ public class GameUpdateHandler {
                     listener.onPlayerMoveByNetwork(updateFromPlayer, Integer.parseInt(updateArgs[1]), Integer.parseInt(updateArgs[2]));
             case DiceRolled -> listener.onDiceRolledByNetwork(updateFromPlayer, Integer.parseInt(updateArgs[1]));
             case TurnEnded -> listener.onTurnEndedByNetwork(updateFromPlayer);
+            case GameStarted -> listener.onGameStartedByNetwork();
             default -> throw new IllegalStateException("Unexpected value: " + keyword);
         }
     }

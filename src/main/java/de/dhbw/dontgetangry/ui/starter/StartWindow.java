@@ -49,6 +49,18 @@ public class StartWindow implements StarterUserInterface{
 			this.joinStartButton.setEnabled(false);
 			this.joinStartButton.setText("The Host will start the game soon.");
 		} else {
+			this.joinStartButton.setEnabled(false);
+			this.joinStartButton.setText("Wait for others to join.");
+		}
+	}
+
+	@Override
+	public void setPlayersInQueue(int i) {
+		if(i > 1){
+			this.joinStartButton.setEnabled(true);
+			this.joinStartButton.setText(i + " Player joined! Start game?");
+		} else {
+			this.joinStartButton.setEnabled(false);
 			this.joinStartButton.setText("Wait for others to join.");
 		}
 	}
