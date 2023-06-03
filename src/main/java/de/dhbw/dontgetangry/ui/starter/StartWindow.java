@@ -4,7 +4,6 @@ import de.dhbw.dontgetangry.model.Player;
 
 import javax.swing.*;
 import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class StartWindow implements StarterUserInterface{
@@ -129,11 +128,11 @@ public class StartWindow implements StarterUserInterface{
 			String domain = domainTextField.getText();
 			int port = Integer.parseInt(portTextField.getText());
 			Player player = (Player) colorSelector.getSelectedItem();
-			listener.startClient(domain, port, player);
+			listener.onJoinGameRequestedByUI(domain, port, player);
 		} else {
 			int port = Integer.parseInt(portTextField.getText());
 			Player player = (Player) colorSelector.getSelectedItem();
-			listener.startServer(port, player);
+			listener.onStartNewGameRequestedByUI(port, player);
 		}
 	}
 

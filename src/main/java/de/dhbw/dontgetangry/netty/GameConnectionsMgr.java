@@ -13,7 +13,12 @@ public class GameConnectionsMgr implements GameConnection {
     private GameClient gameClient;
     private GameServer gameServer;
     private final List<PlayerAddress> playerAddresses = Arrays.asList(new PlayerAddress[3]);
+    private final GameConnectionEventListener listener;
 
+
+    public GameConnectionsMgr(GameConnectionEventListener listener){
+        this.listener = listener;
+    }
 
     /**
      * Starts connection to join a game
@@ -39,9 +44,9 @@ public class GameConnectionsMgr implements GameConnection {
 
     private void createServerAndClient(Player player, int port) {
         this.player = player;
-        GameUpdateHandler gameUpdateHandler = new GameUpdateHandler(new GameConnectionEventListenerImpl(this));
+        GameUpdateHandler gameUpdateHandler = new GameUpdateHandler(this, listener);
         gameServer = new GameServer(gameUpdateHandler);
-        gameClient = new GameClient(player.name());
+        gameClient = new GameClient(player);
 
         Thread serverThread = new Thread(() -> {
             try {

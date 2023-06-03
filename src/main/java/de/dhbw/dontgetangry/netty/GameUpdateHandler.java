@@ -6,9 +6,11 @@ import de.dhbw.dontgetangry.model.Player;
 public class GameUpdateHandler {
 
     private final GameConnectionEventListener listener;
+    private final GameConnectionsMgr mgr;
 
-    public GameUpdateHandler(GameConnectionEventListener listener) {
+    public GameUpdateHandler(GameConnectionsMgr mgr, GameConnectionEventListener listener) {
         this.listener = listener;
+        this.mgr = mgr;
     }
 
     public void handleUpdate(String host, String player, String update) {
@@ -29,11 +31,14 @@ public class GameUpdateHandler {
         Player updateFromPlayer = Player.getPlayerById(Integer.parseInt(updateArgs[0]));
 
         switch (GameProtocolKeywords.valueOf(keyword)) {
-            case StartConnection -> listener.onPlayerJoined(updateFromPlayer, host, port);
+            case StartConnection -> {
+                mgr.addPlayerAddress(new PlayerAddress(updateFromPlayer, host, port));
+                listener.onPlayerJoinedByNetwork(updateFromPlayer);
+            }
             case PlayerMove ->
-                    listener.onPlayerMove(updateFromPlayer, Integer.parseInt(updateArgs[1]), Integer.parseInt(updateArgs[2]));
-            case DiceRolled -> listener.onDiceRolled(updateFromPlayer, Integer.parseInt(updateArgs[1]));
-            case TurnEnded -> listener.onTurnEnded(updateFromPlayer);
+                    listener.onPlayerMoveByNetwork(updateFromPlayer, Integer.parseInt(updateArgs[1]), Integer.parseInt(updateArgs[2]));
+            case DiceRolled -> listener.onDiceRolledByNetwork(updateFromPlayer, Integer.parseInt(updateArgs[1]));
+            case TurnEnded -> listener.onTurnEndedByNetwork(updateFromPlayer);
             default -> throw new IllegalStateException("Unexpected value: " + keyword);
         }
     }

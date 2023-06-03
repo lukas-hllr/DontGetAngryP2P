@@ -3,9 +3,9 @@ package de.dhbw.dontgetangry.ui.starter;
 import de.dhbw.dontgetangry.model.Player;
 
 public interface StarterEventListener {
-    void startServer(int port, Player player);
+    void onStartNewGameRequestedByUI(int port, Player player);
 
-    void startClient(String domain, int Port, Player player);
+    void onJoinGameRequestedByUI(String domain, int port, Player player);
 
-    void startGame();
+    void onStartGameRequestedByUI();
 }

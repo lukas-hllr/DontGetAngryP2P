@@ -2,8 +2,9 @@ package de.dhbw.dontgetangry;
 
 import de.dhbw.dontgetangry.model.Player;
 import de.dhbw.dontgetangry.netty.GameConnectionEventListener;
+import de.dhbw.dontgetangry.netty.GameConnectionEventListenerFake;
 
-public class GamestateUpdater implements GameConnectionEventListener {
+public class GamestateUpdater implements GameConnectionEventListenerFake {
     @Override
     public void onPlayerJoined(Player player, String domain, int port) {
 

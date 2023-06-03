@@ -4,11 +4,11 @@ import de.dhbw.dontgetangry.model.Player;
 
 public interface GameConnectionEventListener {
 
-    void onPlayerJoined(Player player, String domain, int port);
+    void onPlayerJoinedByNetwork(Player player);
 
-    void onPlayerMove(Player player, int figure, int position);
+    void onPlayerMoveByNetwork(Player player, int figure, int position);
 
-    void onDiceRolled(Player player, int n);
+    void onDiceRolledByNetwork(Player player, int n);
 
-    void onTurnEnded(Player player);
+    void onTurnEndedByNetwork(Player player);
 }

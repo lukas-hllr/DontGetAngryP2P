@@ -4,12 +4,10 @@ import de.dhbw.dontgetangry.model.Player;
 
 public interface UIEventListener {
 
-    void rollDice();
+    void onRollDiceByUI();
 
-    void setPosition(Player player, int character, boolean forward);
+    void onSetPositionByUI(int character, boolean forward);
 
-    void setTurn(Player player);
-
-    void endTurn();
+    void onEndTurnByUI();
 
 }
