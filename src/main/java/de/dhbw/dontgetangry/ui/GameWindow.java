@@ -270,13 +270,54 @@ public class GameWindow implements UserInterface {
 
         frame.getContentPane().add(playfield);
 
-        JPanel p = new JPanel();
-        p.setBounds(window_size, 0, 400 + 5, window_size + 40);
-        p.add(new JLabel("Hallo"));
-        frame.getContentPane().add(p);
+        JPanel controlPanel = new JPanel();
+        controlPanel.setBounds(window_size, 0, 400 + 5, window_size);
+        controlPanel.setLayout(new BorderLayout(0, 0));
 
-        setPosition(Player.BLUE, 0, 6);
+        JPanel pbPanel = new JPanel();
+        controlPanel.add(pbPanel, BorderLayout.NORTH);
+        pbPanel.setLayout(new BoxLayout(pbPanel, BoxLayout.Y_AXIS));
 
+        JProgressBar pbPlayer1 = new JProgressBar();
+        pbPlayer1.setValue(25);
+        pbPanel.add(pbPlayer1);
+
+        JProgressBar pbPlayer2 = new JProgressBar();
+        pbPlayer2.setValue(30);
+        pbPanel.add(pbPlayer2);
+
+        JProgressBar pbPlayer3 = new JProgressBar();
+        pbPlayer3.setValue(40);
+        pbPanel.add(pbPlayer3);
+
+        JProgressBar pbPlayer4 = new JProgressBar();
+        pbPlayer4.setValue(70);
+        pbPanel.add(pbPlayer4);
+
+        JButton endTurnButton = new JButton("End turn");
+        controlPanel.add(endTurnButton, BorderLayout.SOUTH);
+
+        JPanel movementDicePanel = new JPanel();
+        controlPanel.add(movementDicePanel, BorderLayout.CENTER);
+        movementDicePanel.setLayout(new BorderLayout(0, 0));
+
+        JPanel movementPanel = new JPanel();
+        movementDicePanel.add(movementPanel, BorderLayout.SOUTH);
+
+        JButton stepBackButton = new JButton("Step backward");
+        movementPanel.add(stepBackButton);
+
+        JButton stepForwardButton = new JButton("Step forward");
+        movementPanel.add(stepForwardButton);
+
+        JPanel dicePanel = new JPanel();
+        movementDicePanel.add(dicePanel, BorderLayout.CENTER);
+
+        JButton diceButton = new JButton("Würfeln");
+        dicePanel.add(diceButton);
+
+
+        frame.getContentPane().add(controlPanel);
         frame.setVisible(false);
     }
 

@@ -56,7 +56,7 @@ public class StartWindow implements StarterUserInterface{
 
 	@Override
 	public void setPlayersInQueue(int i) {
-		if(i > 1){
+		if(i > 0){
 			this.joinStartButton.setEnabled(true);
 			this.joinStartButton.setText(i + " Player joined! Start game?");
 		} else {
@@ -92,6 +92,9 @@ public class StartWindow implements StarterUserInterface{
 		serverRadioButton.addActionListener(e -> {
 			domainTextField.setEnabled(false);
 			joinStartButton.setText("Start a new Game!");
+			joinStartButton.removeActionListener(joinStartButtonAL);
+			joinStartButtonAL = ev -> startNewGameButtonPressed();
+			joinStartButton.addActionListener(joinStartButtonAL);
 		});
 		clientServerPanel.add(serverRadioButton, BorderLayout.NORTH);
 		
@@ -99,6 +102,9 @@ public class StartWindow implements StarterUserInterface{
 		clientRadioButton.addActionListener(e -> {
 			domainTextField.setEnabled(true);
 			joinStartButton.setText("Join!");
+			joinStartButton.removeActionListener(joinStartButtonAL);
+			joinStartButtonAL = ev -> joinGameButtonPressed();
+			joinStartButton.addActionListener(joinStartButtonAL);
 		});
 		clientServerPanel.add(clientRadioButton, BorderLayout.SOUTH);
 
@@ -131,21 +137,28 @@ public class StartWindow implements StarterUserInterface{
 		
 		joinStartButton = new JButton("Start a new Game!");
 		joinStartPanel.add(joinStartButton);
-		ActionListener joinStartButtonAL = e -> joinStartButtonPressed();
+		joinStartButtonAL = ev -> startNewGameButtonPressed();
 		joinStartButton.addActionListener(joinStartButtonAL);
 	}
 
-	private void joinStartButtonPressed() {
-		if(clientRadioButton.isSelected()){
-			String domain = domainTextField.getText();
-			int port = Integer.parseInt(portTextField.getText());
-			Player player = (Player) colorSelector.getSelectedItem();
-			listener.onJoinGameRequestedByUI(domain, port, player);
-		} else {
-			int port = Integer.parseInt(portTextField.getText());
-			Player player = (Player) colorSelector.getSelectedItem();
-			listener.onStartNewGameRequestedByUI(port, player);
-		}
+	private void joinGameButtonPressed() {
+		String domain = domainTextField.getText();
+		int port = Integer.parseInt(portTextField.getText());
+		Player player = (Player) colorSelector.getSelectedItem();
+		listener.onJoinGameRequestedByUI(domain, port, player);
+	}
+
+	private void startNewGameButtonPressed() {
+		int port = Integer.parseInt(portTextField.getText());
+		Player player = (Player) colorSelector.getSelectedItem();
+		joinStartButton.removeActionListener(joinStartButtonAL);
+		joinStartButtonAL = e -> startGameButtonPressed();
+		joinStartButton.addActionListener(joinStartButtonAL);
+		listener.onStartNewGameRequestedByUI(port, player);
+	}
+
+	private void startGameButtonPressed() {
+		listener.onStartGameRequestedByUI();
 	}
 
 }
