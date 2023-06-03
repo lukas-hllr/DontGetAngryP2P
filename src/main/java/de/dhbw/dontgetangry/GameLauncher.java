@@ -2,7 +2,9 @@ package de.dhbw.dontgetangry;
 
 import de.dhbw.dontgetangry.model.Player;
 import de.dhbw.dontgetangry.netty.GameClient;
+import de.dhbw.dontgetangry.netty.GameConnectionsMgr;
 import de.dhbw.dontgetangry.netty.GameServer;
+import de.dhbw.dontgetangry.netty.GameUpdateHandler;
 import de.dhbw.dontgetangry.ui.GameWindow;
 import de.dhbw.dontgetangry.ui.starter.StarterEventListener;
 
@@ -85,21 +87,27 @@ public class GameLauncher extends JFrame {
         this.setVisible(true);
     }
 
-    public void startGame2(Player player) {
-        GameUpdateHandler gameUpdateHandler = new GameUpdateHandler();
-        GameServer gameServer = new GameServer(gameUpdateHandler);
-        try {
-            gameServer.start(5000);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        GameClient gameClient = new GameClient(player);
-        try {
-            gameClient.sendUpdate("test", "localhost", 5000);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    // public void startGame2(Player player) {
+    //     GameUpdateHandler gameUpdateHandler = new GameUpdateHandler();
+    //     GameServer gameServer = new GameServer(gameUpdateHandler);
+    //     try {
+    //         gameServer.start(5000);
+    //     } catch (Exception e) {
+    //         throw new RuntimeException(e);
+    //     }
+    //     GameClient gameClient = new GameClient(player);
+    //     try {
+    //         gameClient.sendUpdate("test", "localhost", 5000);
+    //     } catch (Exception e) {
+    //         throw new RuntimeException(e);
+    //     }
+    // }
 
+    public void startGame(String playerName) {
+        int port = 5000;
+        GameConnectionsMgr gameConnectionsMgr = new GameConnectionsMgr();
+        //new game:
+        gameConnectionsMgr.start(Player.getPlayerById(0), port);
 
         EventQueue.invokeLater(() -> {
             try {

@@ -7,7 +7,6 @@ import de.dhbw.dontgetangry.ui.UserInterface;
 import de.dhbw.dontgetangry.ui.starter.StartWindow;
 import de.dhbw.dontgetangry.ui.starter.StarterEventListener;
 import de.dhbw.dontgetangry.ui.starter.StarterUserInterface;
-
 import java.util.Arrays;
 
 public class DontGetAngry implements StarterEventListener, UIEventListener {
