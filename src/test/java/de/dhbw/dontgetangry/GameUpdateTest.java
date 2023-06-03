@@ -16,7 +16,7 @@ public class GameUpdateTest {
         GameConnectionsMgr gameConnectionsMgr = new GameConnectionsMgr();
 
 
-        // Start the server on a new thread
+        // only for testing (to use .sleep()) not needed in real game
         Thread serverThread = new Thread(() -> {
             try {
 
@@ -45,8 +45,6 @@ public class GameUpdateTest {
             });
             clientThread.start();
         }
-
-        // Perform your operations...
 
         // Shutdown the clients
         for (GameClient client : clients) {

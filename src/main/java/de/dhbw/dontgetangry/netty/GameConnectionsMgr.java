@@ -27,7 +27,6 @@ public class GameConnectionsMgr implements GameConnection {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
     }
 
     /**

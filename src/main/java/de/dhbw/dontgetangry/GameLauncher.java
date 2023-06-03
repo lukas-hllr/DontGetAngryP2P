@@ -50,11 +50,10 @@ public class GameLauncher extends JFrame {
     }
 
     public void startGame(String playerName) {
-
         int port = 5000;
         GameConnectionsMgr gameConnectionsMgr = new GameConnectionsMgr();
+        //new game:
         gameConnectionsMgr.start(Player.getPlayerById(0), port);
-
 
         EventQueue.invokeLater(() -> {
             try {
