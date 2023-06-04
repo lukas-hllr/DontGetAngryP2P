@@ -378,6 +378,7 @@ public class GameWindow implements UserInterface {
     @Override
     public void startGame(List<Player> players) {
         this.mainPlayer = players.get(0);
+        System.out.println(mainPlayer);
         for (Player player: players) {
             for (int i = 0; i < 4; i++) {
                 setPosition(player, i, i-4);

@@ -68,7 +68,13 @@ public class DontGetAngry implements StarterEventListener, UIEventListener, Game
 	public void onEndTurnByUI() {
 		connection.endTurn();
 
-		int next = mainPlayer.id + 1 < 4 ? mainPlayer.id + 1 : 0;
+		int next = mainPlayer.id + 1 < 3 ? mainPlayer.id + 1 : 0;
+		while (!players.contains(Player.getPlayerById(next))){
+			next++;
+			if(next < 3){
+				next = 0;
+			}
+		}
 
 		ui.setTurn(Player.getPlayerById(next));
 
@@ -147,7 +153,13 @@ public class DontGetAngry implements StarterEventListener, UIEventListener, Game
 
 	@Override
 	public void onTurnEndedByNetwork(Player player) {
-		int next = player.id + 1 < 4 ? player.id + 1 : 0;
+		int next = mainPlayer.id + 1 < 3 ? mainPlayer.id + 1 : 0;
+		while (!players.contains(Player.getPlayerById(next))){
+			next++;
+			if(next < 3){
+				next = 0;
+			}
+		}
 		ui.setTurn(Player.getPlayerById(next));
 	}
 
