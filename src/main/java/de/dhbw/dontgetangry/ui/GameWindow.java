@@ -27,7 +27,12 @@ public class GameWindow implements UserInterface {
     private FieldPanel highlighted;
 
     private int highlightedPlayer;
-    private final DicePanel dice = new DicePanel(true);
+    private DicePanel rollingDice;
+
+    private JPanel turnPanel;
+    private JButton stepForwardButton;
+    private JButton stepBackButton;
+    private JButton endTurnButton;
 
     public Color color_default = new Color(0, 0, 0);
 
@@ -267,8 +272,9 @@ public class GameWindow implements UserInterface {
 
 
         //dice
-        dice.setLocation(center, center);
-        playfield.add(dice);
+        rollingDice = new DicePanel(listener);
+        rollingDice.setLocation(center, center);
+        playfield.add(rollingDice);
 
 
         frame.getContentPane().add(playfield);
@@ -277,50 +283,28 @@ public class GameWindow implements UserInterface {
         controlPanel.setBounds(window_size, 0, 400 + 5, window_size);
         controlPanel.setLayout(new BorderLayout(0, 0));
 
-        JPanel pbPanel = new JPanel();
-        controlPanel.add(pbPanel, BorderLayout.NORTH);
-        pbPanel.setLayout(new BoxLayout(pbPanel, BoxLayout.Y_AXIS));
 
-        JProgressBar pbPlayer1 = new JProgressBar();
-        pbPlayer1.setValue(25);
-        pbPanel.add(pbPlayer1);
-
-        JProgressBar pbPlayer2 = new JProgressBar();
-        pbPlayer2.setValue(30);
-        pbPanel.add(pbPlayer2);
-
-        JProgressBar pbPlayer3 = new JProgressBar();
-        pbPlayer3.setValue(40);
-        pbPanel.add(pbPlayer3);
-
-        JProgressBar pbPlayer4 = new JProgressBar();
-        pbPlayer4.setValue(70);
-        pbPanel.add(pbPlayer4);
-
-        JButton endTurnButton = new JButton("End turn");
+        endTurnButton = new JButton("End turn");
+        endTurnButton.addActionListener(e -> listener.onEndTurnByUI());
         controlPanel.add(endTurnButton, BorderLayout.SOUTH);
 
-        JPanel movementDicePanel = new JPanel();
-        controlPanel.add(movementDicePanel, BorderLayout.CENTER);
-        movementDicePanel.setLayout(new BorderLayout(0, 0));
+        JPanel movementTurnPanel = new JPanel();
+        controlPanel.add(movementTurnPanel, BorderLayout.CENTER);
+        movementTurnPanel.setLayout(new BorderLayout(0, 0));
 
         JPanel movementPanel = new JPanel();
-        movementDicePanel.add(movementPanel, BorderLayout.SOUTH);
+        movementTurnPanel.add(movementPanel, BorderLayout.SOUTH);
 
-        JButton stepBackButton = new JButton("Step backward");
+        stepBackButton = new JButton("Step backward");
         stepBackButton.addActionListener(e -> listener.onSetPositionByUI(highlightedPlayer, false));
         movementPanel.add(stepBackButton);
 
-        JButton stepForwardButton = new JButton("Step forward");
+        stepForwardButton = new JButton("Step forward");
         stepForwardButton.addActionListener(e -> listener.onSetPositionByUI(highlightedPlayer, true));
         movementPanel.add(stepForwardButton);
 
-        JPanel dicePanel = new JPanel();
-        movementDicePanel.add(dicePanel, BorderLayout.CENTER);
-
-        JButton diceButton = new JButton("Würfeln");
-        dicePanel.add(diceButton);
-
+        turnPanel = new JPanel();
+        movementTurnPanel.add(turnPanel, BorderLayout.CENTER);
 
         frame.getContentPane().add(controlPanel);
         frame.setVisible(false);
@@ -365,14 +349,25 @@ public class GameWindow implements UserInterface {
 
     @Override
     public void setTurn(Player player) {
-        // TODO Auto-generated method stub
+        turnPanel.setBackground(player.color);
+
+        if(player == mainPlayer){
+            rollingDice.setEnabled(true);
+            stepBackButton.setEnabled(true);
+            stepForwardButton.setEnabled(true);
+            endTurnButton.setEnabled(true);
+        } else {
+            rollingDice.setEnabled(false);
+            stepBackButton.setEnabled(false);
+            stepForwardButton.setEnabled(false);
+            endTurnButton.setEnabled(false);
+        }
 
     }
 
     @Override
     public void setDice(int r) {
-        // TODO Auto-generated method stub
-
+        rollingDice.rollDice(r);
     }
 
     @Override

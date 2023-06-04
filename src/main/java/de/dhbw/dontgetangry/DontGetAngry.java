@@ -37,7 +37,9 @@ public class DontGetAngry implements StarterEventListener, UIEventListener, Game
 
 	@Override
 	public void onRollDiceByUI() {
-		System.out.println("roll dice");
+		int r = new Random().nextInt(6) + 1;
+		ui.setDice(3);
+		connection.rollDice(r);
 	}
 
 	@Override
@@ -64,7 +66,23 @@ public class DontGetAngry implements StarterEventListener, UIEventListener, Game
 
 	@Override
 	public void onEndTurnByUI() {
+		connection.endTurn();
 
+		int next = mainPlayer.id + 1 < 4 ? mainPlayer.id + 1 : 0;
+
+		ui.setTurn(Player.getPlayerById(next));
+
+		checkForWinner();
+	}
+
+	private void checkForWinner() {
+		for (Player player : players) {
+			int sum = Arrays.stream(player_positions.get(player)).reduce(0, Integer::sum);
+			if(sum >= 166){
+				ui.setWinner(player);
+				break;
+			}
+		}
 	}
 
 	@Override
@@ -93,6 +111,16 @@ public class DontGetAngry implements StarterEventListener, UIEventListener, Game
 		starterUi.show(false);
 		connection.startGame();
 		ui.startGame(players);
+
+		if(players.contains(Player.BLUE)){
+			ui.setTurn(Player.BLUE);
+		} else if(players.contains(Player.RED)){
+			ui.setTurn(Player.RED);
+		} else if(players.contains(Player.YELLOW)){
+			ui.setTurn(Player.YELLOW);
+		} else if(players.contains(Player.GREEN)){
+			ui.setTurn(Player.GREEN);
+		}
 	}
 
 	@Override
@@ -110,12 +138,13 @@ public class DontGetAngry implements StarterEventListener, UIEventListener, Game
 
 	@Override
 	public void onDiceRolledByNetwork(Player player, int n) {
-
+		ui.setDice(n);
 	}
 
 	@Override
 	public void onTurnEndedByNetwork(Player player) {
-
+		int next = player.id + 1 < 4 ? player.id + 1 : 0;
+		ui.setTurn(Player.getPlayerById(next));
 	}
 
 	@Override
