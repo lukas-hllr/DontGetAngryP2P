@@ -71,11 +71,12 @@ public class DontGetAngry implements StarterEventListener, UIEventListener, Game
 		int next = mainPlayer.id + 1 < 3 ? mainPlayer.id + 1 : 0;
 		while (!players.contains(Player.getPlayerById(next))){
 			next++;
-			if(next < 3){
+			if(next > 3){
 				next = 0;
 			}
 		}
 
+		System.out.println(Player.getPlayerById(next));
 		ui.setTurn(Player.getPlayerById(next));
 
 		checkForWinner();
@@ -83,6 +84,7 @@ public class DontGetAngry implements StarterEventListener, UIEventListener, Game
 
 	private void checkForWinner() {
 		for (Player player : players) {
+
 			int sum = Arrays.stream(player_positions.get(player)).reduce(0, Integer::sum);
 			if(sum >= 166){
 				ui.setWinner(player);
@@ -153,10 +155,10 @@ public class DontGetAngry implements StarterEventListener, UIEventListener, Game
 
 	@Override
 	public void onTurnEndedByNetwork(Player player) {
-		int next = mainPlayer.id + 1 < 3 ? mainPlayer.id + 1 : 0;
+		int next = player.id + 1 < 3 ? player.id + 1 : 0;
 		while (!players.contains(Player.getPlayerById(next))){
 			next++;
-			if(next < 3){
+			if(next > 3){
 				next = 0;
 			}
 		}
