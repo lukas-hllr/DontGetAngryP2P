@@ -45,13 +45,8 @@ public class StartWindow implements StarterUserInterface{
 		this.clientRadioButton.setEnabled(false);
 		this.serverRadioButton.setEnabled(false);
 		this.colorSelector.setEnabled(false);
-		if(clientRadioButton.isSelected()){
-			this.joinStartButton.setEnabled(false);
-			this.joinStartButton.setText("The Host will start the game soon.");
-		} else {
-			this.joinStartButton.setEnabled(false);
-			this.joinStartButton.setText("Wait for others to join.");
-		}
+		this.joinStartButton.setEnabled(false);
+		this.joinStartButton.setText("Wait for others to join.");
 	}
 
 	@Override
@@ -59,6 +54,9 @@ public class StartWindow implements StarterUserInterface{
 		if(i > 0){
 			this.joinStartButton.setEnabled(true);
 			this.joinStartButton.setText(i + " Player joined! Start game?");
+			this.joinStartButton.removeActionListener(joinStartButtonAL);
+			this.joinStartButtonAL = ev -> startGameButtonPressed();
+			this.joinStartButton.addActionListener(joinStartButtonAL);
 		} else {
 			this.joinStartButton.setEnabled(false);
 			this.joinStartButton.setText("Wait for others to join.");
@@ -117,7 +115,7 @@ public class StartWindow implements StarterUserInterface{
 		ipPortPanel.setLayout(new BorderLayout(10, 10));
 		
 		domainTextField = new JTextField();
-		domainTextField.setText("IP-Address");
+		domainTextField.setText("Host");
 		domainTextField.setEnabled(false);
 		ipPortPanel.add(domainTextField, BorderLayout.CENTER);
 		domainTextField.setColumns(10);

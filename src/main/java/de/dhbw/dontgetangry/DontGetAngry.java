@@ -112,6 +112,10 @@ public class DontGetAngry implements StarterEventListener, UIEventListener, Game
 		connection.startGame();
 		ui.startGame(players);
 
+		setInitialTurn();
+	}
+
+	private void setInitialTurn() {
 		if(players.contains(Player.BLUE)){
 			ui.setTurn(Player.BLUE);
 		} else if(players.contains(Player.RED)){
@@ -151,5 +155,6 @@ public class DontGetAngry implements StarterEventListener, UIEventListener, Game
 	public void onGameStartedByNetwork() {
 		starterUi.show(false);
 		ui.startGame(players);
+		setInitialTurn();
 	}
 }
