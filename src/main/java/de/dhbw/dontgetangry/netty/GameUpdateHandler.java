@@ -57,7 +57,7 @@ public class GameUpdateHandler {
             addressjoiner.add(address.player().id + "|" + address.domain() + "|" + address.port());
         }
         try {
-            mgr.getGameClient().sendUpdate(addressjoiner.toString(), host, port);
+            mgr.getGameClient().sendUpdate(addressjoiner.toString(), host, mgr.port);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -70,11 +70,11 @@ public class GameUpdateHandler {
             String newHost = addressValues[1];
             int newPort = Integer.parseInt(addressValues[2]);
 
-            mgr.addPlayerAddress(new PlayerAddress(newPlayer, newHost, newPort));
+            mgr.addPlayerAddress(new PlayerAddress(newPlayer, newHost, mgr.port));
             listener.onPlayerJoinedByNetwork(newPlayer);
 
             try {
-                mgr.getGameClient().sendUpdate(PlayerJoined.getKeyword() + "/" + newPlayer.id, newHost, newPort);
+                mgr.getGameClient().sendUpdate(PlayerJoined.getKeyword() + "/" + newPlayer.id, newHost, mgr.port);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

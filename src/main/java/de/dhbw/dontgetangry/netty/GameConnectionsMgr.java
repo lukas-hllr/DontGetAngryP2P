@@ -14,7 +14,7 @@ public class GameConnectionsMgr implements GameConnection {
     private GameClient gameClient;
     private GameServer gameServer;
 
-    private int port;
+    public int port;
     private final List<PlayerAddress> playerAddresses = new ArrayList<>();
     private final GameConnectionEventListener listener;
 
