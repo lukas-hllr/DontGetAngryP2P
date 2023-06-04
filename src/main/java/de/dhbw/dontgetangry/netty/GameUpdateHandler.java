@@ -66,6 +66,16 @@ public class GameUpdateHandler {
     }
 
     private void handleConnectionInfos(Player player, String[] updateArgs, String host, int port){
+
+        mgr.addPlayerAddress(new PlayerAddress(player, host, mgr.port));
+        listener.onPlayerJoinedByNetwork(player);
+
+        try {
+            mgr.getGameClient().sendUpdate(PlayerJoined.getKeyword() + "/" + mgr.getPlayer(), host, mgr.port);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
         String[] addresses = updateArgs[1].split("\\+");
         for (String address : addresses) {
             String[] addressValues = address.split("\\|");
