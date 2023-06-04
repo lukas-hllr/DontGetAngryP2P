@@ -12,7 +12,7 @@
 - Es gibt keinen dedizierten Server
 
 ## Einschänkungen
-- Zum Testen der Anwendung sind 2 Computer nötig, da die Anwendung
+- Zum Testen der Anwendung sind 2 Computer nötig, da die Anwendung jeweils immer den entsprechenden Port blockiert, der nötig wäre um sie ein zweites mal zu starten.
 - Die Anwendung sollte mit einer minimalen Bidschirmauflösung von 1080x1920 betrieben werden.
 - Das Würfeln findet nicht dezentral statt. Schummeln wäre durch Code-Manipulation möglich.
 
