@@ -11,24 +11,24 @@ import de.dhbw.dontgetangry.ui.starter.StartWindow;
 import de.dhbw.dontgetangry.ui.starter.StarterEventListener;
 import de.dhbw.dontgetangry.ui.starter.StarterUserInterface;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class DontGetAngry implements StarterEventListener, UIEventListener, GameConnectionEventListener {
 
 	private final UserInterface ui;
 	private final StarterUserInterface starterUi;
 	private final GameConnection connection;
-
-
 	private final List<Player> players = new ArrayList<>();
+	private Map<Player, int[]> player_positions;
+
+	private Player mainPlayer;
 
 
 	public DontGetAngry(){
 		this.ui = new GameWindow(this);
 		this.starterUi = new StartWindow(this);
 		this.connection = new GameConnectionsMgr(this);
+		this.player_positions = new HashMap<>();
 	}
 
 	public void start(){
@@ -42,7 +42,24 @@ public class DontGetAngry implements StarterEventListener, UIEventListener, Game
 
 	@Override
 	public void onSetPositionByUI(int character, boolean forward) {
+		int current = player_positions.get(mainPlayer)[character];
+		int newPos = 0;
+		if(forward && current < 43){
+			if(current < 0){
+				newPos = 0;
+			} else {
+				newPos = current + 1;
+			}
 
+			ui.setPosition(mainPlayer, character, newPos);
+			player_positions.get(mainPlayer)[character] = newPos;
+			connection.playerMove(character, newPos);
+		} else if(current < 43 && current != 0){
+			newPos = current -1;
+			ui.setPosition(mainPlayer, character, newPos);
+			player_positions.get(mainPlayer)[character] = newPos;
+			connection.playerMove(character, newPos);
+		}
 	}
 
 	@Override
@@ -55,7 +72,9 @@ public class DontGetAngry implements StarterEventListener, UIEventListener, Game
 		System.out.println("start server");
 
 		starterUi.awaitGameStart();
+		mainPlayer = player;
 		players.add(player);
+		player_positions.put(player, new int[]{-4, -3, -2, -1});
 		connection.start(player, port);
 	}
 
@@ -64,6 +83,7 @@ public class DontGetAngry implements StarterEventListener, UIEventListener, Game
 		System.out.println("start client");
 
 		starterUi.awaitGameStart();
+		mainPlayer = player;
 		players.add(player);
 		connection.start(player, domain, port);
 	}
@@ -78,12 +98,14 @@ public class DontGetAngry implements StarterEventListener, UIEventListener, Game
 	@Override
 	public void onPlayerJoinedByNetwork(Player player) {
 		players.add(player);
+		player_positions.put(player, new int[]{-4, -3, -2, -1});
 		starterUi.setPlayersInQueue(players.size()-1);
 	}
 
 	@Override
 	public void onPlayerMoveByNetwork(Player player, int figure, int position) {
-
+		player_positions.get(player)[figure] = position;
+		ui.setPosition(player, figure, position);
 	}
 
 	@Override

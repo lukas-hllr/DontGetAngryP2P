@@ -1,48 +1,67 @@
 package de.dhbw.dontgetangry.ui.components;
 import de.dhbw.dontgetangry.model.Player;
+import de.dhbw.dontgetangry.ui.GameWindow;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import javax.swing.Icon;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.LineBorder;
 
-public class FieldPanel extends JPanel {
+public class FieldPanel extends JButton {
 	
-	private Map<Player, Map<Integer, JLabel>> players;
+	private Map<Player, List<Integer>> players;
+	private final GameWindow window;
 	
-	public FieldPanel() {
+	public FieldPanel(GameWindow window) {
 		super();
-		
-		players = new HashMap<Player, Map<Integer,JLabel>>();
-		players.put(Player.BLUE, new HashMap<Integer, JLabel>());
-		players.put(Player.RED, new HashMap<Integer, JLabel>());
-		players.put(Player.YELLOW, new HashMap<Integer, JLabel>());
-		players.put(Player.GREEN, new HashMap<Integer, JLabel>());
-		
+		this.window = window;
+		init(window);
+	}
+
+	private void init(GameWindow window) {
+		players = new HashMap<>();
+		players.put(Player.BLUE, new ArrayList<>());
+		players.put(Player.RED, new ArrayList<>());
+		players.put(Player.YELLOW, new ArrayList<>());
+		players.put(Player.GREEN, new ArrayList<>());
+
 		this.setSize(64, 64);
 		this.setBorder(new LineBorder(new Color(0, 0, 0)));
 		this.setLayout(null);
-		
+
+		this.addActionListener(e -> window.fieldClicked(this));
 	}
-	
+
 	public void setPlayer(Player player, int character, boolean isOnField) {
 		if (isOnField) {
+			players.get(player).add(character);
 			Icon i = player.icon;
-			JLabel l = new JLabel(i);
-			l.setBounds(0, 0, 64, 64);
-			if(players.get(player).containsKey(character)) {
-				this.remove(players.get(player).get(character));
+			this.setIcon(i);
+		} else if(players.get(player).contains(character)){
+			players.get(player).remove(Integer.valueOf(character));
+			if(!players.get(player).contains(character)){
+				this.setIcon(null);
 			}
-			players.get(player).put(character, l);
-			this.add(l);
-		} else if(players.get(player).get(character) != null){
-			this.remove(players.get(player).get(character));
-			players.get(player).remove(character);
 		}
+	}
+
+	public void highlight(boolean highlight){
+		if(highlight){
+			this.setBorder(new LineBorder(new Color(255, 87, 51), 3));
+		} else {
+			this.setBorder(new LineBorder(new Color(0, 0, 0)));
+		}
+	}
+
+	public int getPlayerOfType(Player player){
+		if(players.get(player).size() > 0){
+			return players.get(player).get(0);
+		}
+		return -1;
 	}
 
 }

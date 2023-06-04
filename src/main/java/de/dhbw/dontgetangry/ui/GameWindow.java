@@ -3,7 +3,6 @@ package de.dhbw.dontgetangry.ui;
 import de.dhbw.dontgetangry.ui.components.DicePanel;
 import de.dhbw.dontgetangry.ui.components.FieldPanel;
 import de.dhbw.dontgetangry.model.Player;
-import de.dhbw.dontgetangry.ui.starter.StartWindow;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -15,6 +14,7 @@ public class GameWindow implements UserInterface {
 
     private UIEventListener listener;
     private JFrame frame;
+    private Player mainPlayer;
     public static int field_size = 64;
     public static int space_size = 10;
     public static int window_size = 11 * field_size + 12 * space_size;
@@ -24,6 +24,9 @@ public class GameWindow implements UserInterface {
     public FieldPanel[][] out_fields;
     public int[][] player_positions;
 
+    private FieldPanel highlighted;
+
+    private int highlightedPlayer;
     private final DicePanel dice = new DicePanel(true);
 
     public Color color_default = new Color(0, 0, 0);
@@ -82,7 +85,7 @@ public class GameWindow implements UserInterface {
              */
 
             //top-right
-            fields[i] = new FieldPanel();
+            fields[i] = new FieldPanel(this);
             fields[i].setLocation(start_top_left_2_x, start_top_left_right_y + offset);
 
             /*
@@ -92,7 +95,7 @@ public class GameWindow implements UserInterface {
              */
 
             //center-right-top
-            fields[i + 5] = new FieldPanel();
+            fields[i + 5] = new FieldPanel(this);
             fields[i + 5].setLocation(start_top_left_2_x + offset_one_field + offset, start_top_left_x);
 
             /*
@@ -104,7 +107,7 @@ public class GameWindow implements UserInterface {
              */
 
             //center-right-bottom
-            fields[i + 10] = new FieldPanel();
+            fields[i + 10] = new FieldPanel(this);
             fields[i + 10].setLocation(window_size - field_size - start_top_left_right_y - offset, start_top_left_2_x);
 
             /*
@@ -118,7 +121,7 @@ public class GameWindow implements UserInterface {
              */
 
             //bottom-right
-            fields[i + 15] = new FieldPanel();
+            fields[i + 15] = new FieldPanel(this);
             fields[i + 15].setLocation(start_top_left_2_x, start_top_left_2_x + offset_one_field + offset);
 
             /*
@@ -132,7 +135,7 @@ public class GameWindow implements UserInterface {
              */
 
             //bottom-left
-            fields[i + 20] = new FieldPanel();
+            fields[i + 20] = new FieldPanel(this);
             fields[i + 20].setLocation(start_top_left_x, window_size - field_size - start_top_left_right_y - offset);
 
             /*
@@ -146,7 +149,7 @@ public class GameWindow implements UserInterface {
              */
 
             //center-left-bottom
-            fields[i + 25] = new FieldPanel();
+            fields[i + 25] = new FieldPanel(this);
             fields[i + 25].setLocation(start_top_left_x - offset_one_field - offset, start_top_left_2_x);
 
             /*
@@ -160,7 +163,7 @@ public class GameWindow implements UserInterface {
              */
 
             //center-left-top
-            fields[i + 30] = new FieldPanel();
+            fields[i + 30] = new FieldPanel(this);
             fields[i + 30].setLocation(start_top_left_right_y + offset, start_top_left_x);
 
             /*
@@ -174,73 +177,73 @@ public class GameWindow implements UserInterface {
              */
 
             //top-left
-            fields[i + 35] = new FieldPanel();
+            fields[i + 35] = new FieldPanel(this);
             fields[i + 35].setLocation(start_top_left_x, start_top_left_x - offset_one_field - offset);
 
             //final-fields
-            final_fields[0][i] = new FieldPanel();
+            final_fields[0][i] = new FieldPanel(this);
             final_fields[0][i].setBackground(color_player_0);
             final_fields[0][i].setLocation(center, center - (4 - i) * offset_one_field);
 
-            final_fields[1][i] = new FieldPanel();
+            final_fields[1][i] = new FieldPanel(this);
             final_fields[1][i].setBackground(color_player_1);
             final_fields[1][i].setLocation(center + (4 - i) * offset_one_field, center);
 
-            final_fields[2][i] = new FieldPanel();
+            final_fields[2][i] = new FieldPanel(this);
             final_fields[2][i].setBackground(color_player_2);
             final_fields[2][i].setLocation(center, center + (4 - i) * offset_one_field);
 
-            final_fields[3][i] = new FieldPanel();
+            final_fields[3][i] = new FieldPanel(this);
             final_fields[3][i].setBackground(color_player_3);
             final_fields[3][i].setLocation(center - (4 - i) * offset_one_field, center);
         }
 
         //inner-corners
-        fields[4] = new FieldPanel();
+        fields[4] = new FieldPanel(this);
         fields[4].setLocation(start_top_left_2_x, start_top_left_x);
         //10
 
-        fields[14] = new FieldPanel();
+        fields[14] = new FieldPanel(this);
         fields[14].setLocation(start_top_left_2_x, start_top_left_2_x);
         //11
 
-        fields[24] = new FieldPanel();
+        fields[24] = new FieldPanel(this);
         fields[24].setLocation(start_top_left_x, start_top_left_2_x);
         //01
 
-        fields[34] = new FieldPanel();
+        fields[34] = new FieldPanel(this);
         fields[34].setLocation(start_top_left_x, start_top_left_x);
         //00
 
         //outer-fields
-        fields[9] = new FieldPanel();
+        fields[9] = new FieldPanel(this);
         fields[9].setLocation(window_size - offset_one_field, start_top_left_x + offset_one_field);
 
-        fields[19] = new FieldPanel();
+        fields[19] = new FieldPanel(this);
         fields[19].setLocation(start_top_left_x + offset_one_field, window_size - offset_one_field);
 
-        fields[29] = new FieldPanel();
+        fields[29] = new FieldPanel(this);
         fields[29].setLocation(start_top_left_right_y, start_top_left_x + offset_one_field);
 
-        fields[39] = new FieldPanel();
+        fields[39] = new FieldPanel(this);
         fields[39].setLocation(start_top_left_x + offset_one_field, start_top_left_right_y);
 
         //out-fields
         for (int i = 0; i < 4; i++) {
-            out_fields[0][i] = new FieldPanel();
+            out_fields[0][i] = new FieldPanel(this);
             int y = start_top_left_right_y + offset_one_field * (i < 2 ? 0 : 1);
             out_fields[0][i].setLocation(window_size - (2 - (i % 2)) * offset_one_field, y);
             out_fields[0][i].setBackground(Player.BLUE.color);
 
-            out_fields[1][i] = new FieldPanel();
+            out_fields[1][i] = new FieldPanel(this);
             out_fields[1][i].setLocation(window_size - (2 - (i % 2)) * offset_one_field, window_size - (2 - (i < 2 ? 0 : 1)) * offset_one_field);
             out_fields[1][i].setBackground(Player.RED.color);
 
-            out_fields[2][i] = new FieldPanel();
+            out_fields[2][i] = new FieldPanel(this);
             out_fields[2][i].setLocation(start_top_left_right_y + offset_one_field * (i % 2), window_size - (2 - (i < 2 ? 0 : 1)) * offset_one_field);
             out_fields[2][i].setBackground(Player.YELLOW.color);
 
-            out_fields[3][i] = new FieldPanel();
+            out_fields[3][i] = new FieldPanel(this);
             out_fields[3][i].setLocation(start_top_left_right_y + offset_one_field * (i % 2), y);
             out_fields[3][i].setBackground(Player.GREEN.color);
         }
@@ -305,9 +308,11 @@ public class GameWindow implements UserInterface {
         movementDicePanel.add(movementPanel, BorderLayout.SOUTH);
 
         JButton stepBackButton = new JButton("Step backward");
+        stepBackButton.addActionListener(e -> listener.onSetPositionByUI(highlightedPlayer, false));
         movementPanel.add(stepBackButton);
 
         JButton stepForwardButton = new JButton("Step forward");
+        stepForwardButton.addActionListener(e -> listener.onSetPositionByUI(highlightedPlayer, true));
         movementPanel.add(stepForwardButton);
 
         JPanel dicePanel = new JPanel();
@@ -319,6 +324,19 @@ public class GameWindow implements UserInterface {
 
         frame.getContentPane().add(controlPanel);
         frame.setVisible(false);
+    }
+
+    public void fieldClicked(FieldPanel field){
+        int player = field.getPlayerOfType(mainPlayer);
+        if(player != -1){
+            field.highlight(true);
+            if(highlighted != null){
+                highlighted.highlight(false);
+            }
+            highlighted = field;
+            highlightedPlayer = player;
+            System.out.println(highlightedPlayer);
+        }
     }
 
     @Override
@@ -364,6 +382,7 @@ public class GameWindow implements UserInterface {
 
     @Override
     public void startGame(List<Player> players) {
+        this.mainPlayer = players.get(0);
         for (Player player: players) {
             for (int i = 0; i < 4; i++) {
                 setPosition(player, i, i-4);
