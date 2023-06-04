@@ -38,12 +38,10 @@ public class DicePanel extends JButton {
     }
 
     public void rollDice(int r) {
-        this.setIcon(null);
-        this.setIcon(diceImages[r-1]);
-        //rollTimer = new Timer(100, e -> updateRollingNumber(r));
+        rollTimer = new Timer(100, e -> updateRollingNumber(r));
 
-        //rollStartTime = System.currentTimeMillis();
-        //rollTimer.start();
+        rollStartTime = System.currentTimeMillis();
+        rollTimer.start();
     }
 
     private void setDiceIcon(int number) {
