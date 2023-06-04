@@ -325,7 +325,17 @@ public class GameWindow implements UserInterface {
     @Override
     public void setPosition(Player player, int character, int position) {
 
-        int relativePos;
+        if(position < 40 && position >= 0){
+            switch (player){
+                case BLUE -> position += 0;
+                case RED -> position += 10;
+                case YELLOW -> position += 20;
+                case GREEN -> position += 30;
+            }
+            if(position > 39){
+                position -= 40;
+            }
+        }
 
         int old_pos = player_positions[player.id][character];
         if (old_pos > 39) {
