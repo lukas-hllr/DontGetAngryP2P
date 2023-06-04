@@ -71,7 +71,8 @@ public class DontGetAngry implements StarterEventListener, UIEventListener, Game
 	@Override
 	public void onStartGameRequestedByUI() {
 		starterUi.show(false);
-		ui.startGame(Arrays.stream(new Player[]{Player.BLUE, Player.RED}).toList());
+		connection.startGame();
+		ui.startGame(players);
 	}
 
 	@Override
@@ -97,6 +98,7 @@ public class DontGetAngry implements StarterEventListener, UIEventListener, Game
 
 	@Override
 	public void onGameStartedByNetwork() {
-
+		starterUi.show(false);
+		ui.startGame(players);
 	}
 }
