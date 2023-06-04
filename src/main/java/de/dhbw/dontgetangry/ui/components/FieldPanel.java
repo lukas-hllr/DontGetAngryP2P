@@ -44,7 +44,6 @@ public class FieldPanel extends JButton {
 		} else if(players.get(player).contains(character)){
 			players.get(player).remove(Integer.valueOf(character));
 
-
 			if(!players.get(Player.BLUE).isEmpty()){
 				this.setIcon(Player.BLUE.icon);
 			} else if(!players.get(Player.RED).isEmpty()){

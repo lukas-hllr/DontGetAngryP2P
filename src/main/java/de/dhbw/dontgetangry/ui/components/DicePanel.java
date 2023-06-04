@@ -20,7 +20,7 @@ public class DicePanel extends JButton {
     private final Icon[] diceImages = new ImageIcon[]{
             new ImageIcon("src/main/resources/dice1.png"),
             new ImageIcon("src/main/resources/dice2.png"),
-            new ImageIcon("/src/main/resources/dice3.png"),
+            new ImageIcon("src/main/resources/dice3.png"),
             new ImageIcon("src/main/resources/dice4.png"),
             new ImageIcon("src/main/resources/dice5.png"),
             new ImageIcon("src/main/resources/dice6.png")
@@ -29,7 +29,6 @@ public class DicePanel extends JButton {
     public DicePanel(UIEventListener listener) {
         this.listener = listener;
         this.setSize(PANEL_SIZE, PANEL_SIZE);
-//        this.setBorder(new LineBorder(new Color(0, 0, 0)));
         this.setLayout(new BorderLayout());
 
         this.addActionListener(e -> listener.onRollDiceByUI());
@@ -45,9 +44,9 @@ public class DicePanel extends JButton {
     }
 
     private void setDiceIcon(int number) {
-        //set the image of the dice
         Icon icon = diceImages[number - 1];
         this.setIcon(icon);
+        this.revalidate();
     }
 
     private void updateRollingNumber(int r) {
@@ -56,7 +55,6 @@ public class DicePanel extends JButton {
 
         if (elapsedTime >= ROLL_DURATION) {
             rollTimer.stop();
-            System.out.println(r);
             setDiceIcon(r);
         } else {
             int newNumber = new Random().nextInt(MAX_VALUE - MIN_VALUE + 1) + MIN_VALUE;

@@ -38,7 +38,7 @@ public class DontGetAngry implements StarterEventListener, UIEventListener, Game
 	@Override
 	public void onRollDiceByUI() {
 		int r = new Random().nextInt(6) + 1;
-		ui.setDice(3);
+		ui.setDice(r);
 		connection.rollDice(r);
 	}
 
