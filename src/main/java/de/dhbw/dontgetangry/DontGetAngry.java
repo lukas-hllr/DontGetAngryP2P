@@ -159,6 +159,7 @@ public class DontGetAngry implements StarterEventListener, UIEventListener, Game
 			}
 		}
 		ui.setTurn(Player.getPlayerById(next));
+		checkForWinner();
 	}
 
 	@Override
