@@ -30,6 +30,8 @@ public class DicePanel extends JButton {
         this.listener = listener;
         this.setSize(PANEL_SIZE, PANEL_SIZE);
         this.setLayout(new BorderLayout());
+        this.setBackground(new Color(238, 238, 238));
+        this.setBorder(BorderFactory.createEmptyBorder());
 
         this.addActionListener(e -> listener.onRollDiceByUI());
 

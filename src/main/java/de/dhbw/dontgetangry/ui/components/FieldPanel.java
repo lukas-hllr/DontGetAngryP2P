@@ -31,6 +31,7 @@ public class FieldPanel extends JButton {
 
 		this.setSize(64, 64);
 		this.setBorder(new LineBorder(new Color(0, 0, 0)));
+		this.setBackground(new Color(255, 255, 255));
 		this.setLayout(null);
 
 		this.addActionListener(e -> window.fieldClicked(this));

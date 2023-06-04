@@ -47,10 +47,6 @@ public class GameWindow implements UserInterface {
     public GameWindow(UIEventListener listener) {
         this.listener = listener;
         initialize();
-
-        //startWindow = new StartWindow();
-        //startWindow.show(true);
-
     }
 
     /**
