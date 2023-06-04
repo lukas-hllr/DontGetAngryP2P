@@ -71,7 +71,7 @@ public class GameUpdateHandler {
         listener.onPlayerJoinedByNetwork(player);
 
         try {
-            mgr.getGameClient().sendUpdate(PlayerJoined.getKeyword() + "/" + mgr.getPlayer(), host, mgr.port);
+            mgr.getGameClient().sendUpdate(PlayerJoined.getKeyword() + "/" + mgr.getPlayer().id, host, mgr.port);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
