@@ -5,6 +5,7 @@ import de.dhbw.dontgetangry.model.Player;
 import java.util.List;
 import java.util.StringJoiner;
 
+import static de.dhbw.dontgetangry.netty.GameProtocolKeywords.ConnectionInfos;
 import static de.dhbw.dontgetangry.netty.GameProtocolKeywords.PlayerJoined;
 
 
@@ -19,6 +20,7 @@ public class GameUpdateHandler {
     }
 
     public void handleUpdate(String host, String player, String update) {
+        System.out.println(update);
         String[] address = host.split(":");
         address[0] = address[0].substring(1);
 
@@ -52,20 +54,21 @@ public class GameUpdateHandler {
     }
 
     private void handleJoinRequest(Player player, String[] updateArgs, String host, int port){
-        StringJoiner addressjoiner = new StringJoiner(";");
+        StringJoiner addressjoiner = new StringJoiner("+");
         for (PlayerAddress address : mgr.getPlayerAddresses()) {
             addressjoiner.add(address.player().id + "|" + address.domain() + "|" + address.port());
         }
         try {
-            mgr.getGameClient().sendUpdate(addressjoiner.toString(), host, mgr.port);
+            mgr.getGameClient().sendUpdate(ConnectionInfos.getKeyword() + "/" + mgr.getPlayer().id + ";" + addressjoiner, host, mgr.port);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
     private void handleConnectionInfos(Player player, String[] updateArgs, String host, int port){
-        for (String arg : updateArgs) {
-            String[] addressValues = arg.split("|");
+        String[] addresses = updateArgs[1].split("\\+");
+        for (String address : addresses) {
+            String[] addressValues = address.split("\\|");
             Player newPlayer = Player.getPlayerById(Integer.parseInt(addressValues[0]));
             String newHost = addressValues[1];
             int newPort = Integer.parseInt(addressValues[2]);
