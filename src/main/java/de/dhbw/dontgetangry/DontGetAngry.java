@@ -75,8 +75,6 @@ public class DontGetAngry implements StarterEventListener, UIEventListener, Game
 				next = 0;
 			}
 		}
-
-		System.out.println(Player.getPlayerById(next));
 		ui.setTurn(Player.getPlayerById(next));
 
 		checkForWinner();
@@ -86,6 +84,7 @@ public class DontGetAngry implements StarterEventListener, UIEventListener, Game
 		for (Player player : players) {
 
 			int sum = Arrays.stream(player_positions.get(player)).reduce(0, Integer::sum);
+			System.out.println(sum);
 			if(sum >= 166){
 				ui.setWinner(player);
 				break;
@@ -95,8 +94,6 @@ public class DontGetAngry implements StarterEventListener, UIEventListener, Game
 
 	@Override
 	public void onStartNewGameRequestedByUI(int port, Player player) {
-		System.out.println("start server");
-
 		starterUi.awaitGameStart();
 		mainPlayer = player;
 		players.add(player);
@@ -106,11 +103,10 @@ public class DontGetAngry implements StarterEventListener, UIEventListener, Game
 
 	@Override
 	public void onJoinGameRequestedByUI(String domain, int port, Player player) {
-		System.out.println("start client");
-
 		starterUi.awaitGameStart();
 		mainPlayer = player;
 		players.add(player);
+		player_positions.put(player, new int[]{-4, -3, -2, -1});
 		connection.start(player, domain, port);
 	}
 

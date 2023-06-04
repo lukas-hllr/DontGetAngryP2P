@@ -319,13 +319,13 @@ public class GameWindow implements UserInterface {
             }
             highlighted = field;
             highlightedPlayer = player;
-            System.out.println(highlightedPlayer);
         }
     }
 
     @Override
     public void setPosition(Player player, int character, int position) {
-        //reset
+
+        int relativePos;
 
         int old_pos = player_positions[player.id][character];
         if (old_pos > 39) {
@@ -372,7 +372,10 @@ public class GameWindow implements UserInterface {
 
     @Override
     public void setWinner(Player player) {
-
+        JOptionPane.showMessageDialog(frame,
+                player + " won!",
+                "Winner!",
+                JOptionPane.INFORMATION_MESSAGE);
     }
 
     @Override
