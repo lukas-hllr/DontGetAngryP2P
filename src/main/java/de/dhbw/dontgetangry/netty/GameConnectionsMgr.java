@@ -31,7 +31,7 @@ public class GameConnectionsMgr implements GameConnection {
         createServerAndClient(player, port);
 
         try {
-            gameClient.sendUpdate(PlayerJoined.getKeyword() + "/" + this.player.id, domain, port);
+            gameClient.sendUpdate(JoinRequest.getKeyword() + "/" + this.player.id, domain, port);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

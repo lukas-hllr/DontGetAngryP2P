@@ -2,6 +2,11 @@ package de.dhbw.dontgetangry.netty;
 
 import de.dhbw.dontgetangry.model.Player;
 
+import java.util.List;
+import java.util.StringJoiner;
+
+import static de.dhbw.dontgetangry.netty.GameProtocolKeywords.PlayerJoined;
+
 
 public class GameUpdateHandler {
 
@@ -31,6 +36,8 @@ public class GameUpdateHandler {
         Player updateFromPlayer = Player.getPlayerById(Integer.parseInt(updateArgs[0]));
 
         switch (GameProtocolKeywords.valueOf(keyword)) {
+            case JoinRequest -> handleJoinRequest(updateFromPlayer, updateArgs, host, port);
+            case ConnectionInfos -> handleConnectionInfos(updateFromPlayer, updateArgs, host, port);
             case PlayerJoined -> {
                 mgr.addPlayerAddress(new PlayerAddress(updateFromPlayer, host, port));
                 listener.onPlayerJoinedByNetwork(updateFromPlayer);
@@ -41,6 +48,36 @@ public class GameUpdateHandler {
             case TurnEnded -> listener.onTurnEndedByNetwork(updateFromPlayer);
             case GameStarted -> listener.onGameStartedByNetwork();
             default -> throw new IllegalStateException("Unexpected value: " + keyword);
+        }
+    }
+
+    private void handleJoinRequest(Player player, String[] updateArgs, String host, int port){
+        StringJoiner addressjoiner = new StringJoiner(";");
+        for (PlayerAddress address : mgr.getPlayerAddresses()) {
+            addressjoiner.add(address.player().id + "|" + address.domain() + "|" + address.port());
+        }
+        try {
+            mgr.getGameClient().sendUpdate(addressjoiner.toString(), host, port);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void handleConnectionInfos(Player player, String[] updateArgs, String host, int port){
+        for (String arg : updateArgs) {
+            String[] addressValues = arg.split("|");
+            Player newPlayer = Player.getPlayerById(Integer.parseInt(addressValues[0]));
+            String newHost = addressValues[1];
+            int newPort = Integer.parseInt(addressValues[2]);
+
+            mgr.addPlayerAddress(new PlayerAddress(newPlayer, newHost, newPort));
+            listener.onPlayerJoinedByNetwork(newPlayer);
+
+            try {
+                mgr.getGameClient().sendUpdate(PlayerJoined.getKeyword() + "/" + newPlayer.id, newHost, newPort);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 }
