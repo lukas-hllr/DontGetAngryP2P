@@ -1,5 +1,6 @@
 package de.dhbw.dontgetangry.ui.components;
 
+import de.dhbw.dontgetangry.ui.GameWindow;
 import de.dhbw.dontgetangry.ui.UIEventListener;
 
 import javax.swing.*;
@@ -18,12 +19,12 @@ public class DicePanel extends JButton {
     private Timer rollTimer;
     private long rollStartTime;
     private final Icon[] diceImages = new ImageIcon[]{
-            new ImageIcon("src/main/resources/dice1.png"),
-            new ImageIcon("src/main/resources/dice2.png"),
-            new ImageIcon("src/main/resources/dice3.png"),
-            new ImageIcon("src/main/resources/dice4.png"),
-            new ImageIcon("src/main/resources/dice5.png"),
-            new ImageIcon("src/main/resources/dice6.png")
+            GameWindow.getImageIcon("dice1.png"),
+            GameWindow.getImageIcon("dice2.png"),
+            GameWindow.getImageIcon("dice3.png"),
+            GameWindow.getImageIcon("dice4.png"),
+            GameWindow.getImageIcon("dice5.png"),
+            GameWindow.getImageIcon("dice6.png")
     };
 
     public DicePanel(UIEventListener listener) {

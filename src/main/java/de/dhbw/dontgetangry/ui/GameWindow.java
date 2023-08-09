@@ -7,6 +7,7 @@ import de.dhbw.dontgetangry.model.Player;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.net.URL;
 import java.util.List;
 
 
@@ -402,5 +403,10 @@ public class GameWindow implements UserInterface {
                 message,
                 "Error",
                 JOptionPane.ERROR_MESSAGE);
+    }
+
+    public static ImageIcon getImageIcon(String path){
+        final URL url = Thread.currentThread().getContextClassLoader().getResource(path);
+        return new ImageIcon(Toolkit.getDefaultToolkit().getImage(url));
     }
 }
